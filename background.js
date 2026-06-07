@@ -16,7 +16,7 @@ async function getBookmarkBarItems() {
 async function openPicker() {
   const win = await chrome.windows.getCurrent();
   mainWindowId = win.id; // remember main window for tab queries
-  const w = 340, h = 430;
+  const w = 420, h = 520;
   const left = Math.round((win.width - w) / 2 + (win.left || 0));
   const top = Math.round((win.height - h) / 2 + (win.top || 0));
   chrome.windows.create({
