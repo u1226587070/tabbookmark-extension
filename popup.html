@@ -34,17 +34,21 @@
       font-weight: 500;
       margin-bottom: 8px;
     }
-    .url-copy {
-      background: #0f3460;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #4fc3f7;
-      word-break: break-all;
+    .btn-guide {
+      display: block;
+      width: 100%;
+      background: #4fc3f7;
+      color: #0d1117;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
-      user-select: all;
+      transition: background 0.15s;
+      text-align: center;
     }
-    .url-copy:hover { background: #1a4a7a; }
+    .btn-guide:hover { background: #81d4fa; }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -97,8 +101,7 @@
   <div id="mainContent">
     <div class="step-box">
       <h3>📋 第一步</h3>
-      <p style="font-size:12px;color:#ccc;margin-bottom:6px">复制下面地址到地址栏打开：</p>
-      <div class="url-copy" id="shortcutUrl">edge://extensions/shortcuts</div>
+      <button class="btn-guide" id="btnGuide">📖 打开设置引导页</button>
     </div>
 
     <div class="step-box">

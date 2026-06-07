@@ -1,7 +1,7 @@
 // Popup script
 
 const btnShow = document.getElementById('btnShow');
-const urlEl = document.getElementById('shortcutUrl');
+const btnGuide = document.getElementById('btnGuide');
 
 // Button: show overlay on current page
 btnShow.addEventListener('click', () => {
@@ -9,8 +9,8 @@ btnShow.addEventListener('click', () => {
   window.close();
 });
 
-// URL click: open the full setup guide page
-urlEl.addEventListener('click', () => {
+// Button: open setup guide page
+btnGuide.addEventListener('click', () => {
   chrome.tabs.create({ url: chrome.runtime.getURL('setup.html') });
   window.close();
 });
