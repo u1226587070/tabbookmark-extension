@@ -43,8 +43,8 @@
     },
     "nav-open": {
       "suggested_key": {
-        "default": "Ctrl+Shift+Enter",
-        "mac": "Command+Shift+Enter"
+        "default": "Ctrl+Shift+O",
+        "mac": "Command+Shift+O"
       },
       "description": "打开当前高亮的书签"
     }
