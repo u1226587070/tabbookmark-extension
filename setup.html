@@ -42,6 +42,18 @@
     color: #4fc3f7;
     word-break: break-all;
   }
+  .copy-url {
+    background: #0f3460;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #4fc3f7;
+    word-break: break-all;
+    cursor: pointer;
+    user-select: all;
+  }
+  .copy-url:hover { background: #1a4a7a; }
+  .copy-url.copied { color: #81c784; }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -62,22 +74,6 @@
   }
   .done { text-align: center; margin-top: 20px; }
   .done p { color: #888; font-size: 12px; }
-  .btn {
-    display: inline-block;
-    background: #2196f3;
-    color: #fff;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    margin: 8px 0;
-    transition: background 0.15s;
-  }
-  .btn:hover { background: #1976d2; }
-  .btn:active { background: #1565c0; }
-  .btn-success { background: #4caf50; }
-  .btn-success:hover { background: #388e3c; }
 </style>
 </head>
 <body>
@@ -86,8 +82,8 @@
 
   <div class="step">
     <h2>① 打开快捷键设置</h2>
-    <p>复制下面地址到地址栏打开：</p>
-    <p style="background:#0f3460;padding:10px 14px;border-radius:6px;font-size:14px;color:#4fc3f7;word-break:break-all;user-select:all" onclick="this.select()">edge://extensions/shortcuts</p>
+    <p>点击下面地址复制，粘贴到地址栏打开：</p>
+    <p class="copy-url" id="shortcutUrl">edge://extensions/shortcuts</p>
   </div>
 
   <div class="step">
@@ -112,10 +108,8 @@
 
   <div class="step">
     <h2>📦 以后更新</h2>
-    <p>以后我更新了代码，你只需要：</p>
     <ul>
-      <li>克隆仓库：<code>git clone https://github.com/u1226587070/tabbookmark-extension.git</code></li>
-      <li>更新拉取：<code>git pull</code></li>
+      <li>拉取更新：<code>git pull</code></li>
       <li>在 <span class="url">edge://extensions/</span> 点刷新</li>
     </ul>
   </div>
@@ -124,6 +118,6 @@
     <p>配好快捷键后按 <kbd>Ctrl+Shift+Space</kbd> 试试效果 😊</p>
   </div>
 
-
+  <script src="setup.js"></script>
 </body>
 </html>
