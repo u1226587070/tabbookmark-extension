@@ -22,13 +22,33 @@
       border-bottom: 1px solid #2a2a4a;
       margin-bottom: 10px;
     }
+    .btn-show {
+      display: block;
+      width: 100%;
+      background: #2196f3;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: background 0.15s;
+    }
+    .btn-show:hover { background: #1976d2; }
+    .btn-show:active { background: #1565c0; }
+    .btn-show .sub {
+      font-size: 10px;
+      opacity: 0.7;
+    }
     .tip {
       background: #16213e;
-      padding: 10px 12px;
+      padding: 8px 10px;
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       font-size: 11px;
       line-height: 1.8;
+      text-align: center;
     }
     .tip kbd {
       background: #0f3460;
@@ -71,8 +91,12 @@
 </head>
 <body>
   <div class="title">📑 TabBookmark</div>
+  <button class="btn-show" id="btnShow">
+    📑 在当前页面显示书签浮层
+    <div class="sub">快捷键配好前先用这个试</div>
+  </button>
   <div class="tip">
-    <kbd>Ctrl+Shift+Space</kbd> 显示 · <kbd>，。</kbd> 左右 · <kbd>O</kbd> 打开
+    <kbd>Ctrl+Shift+Space</kbd> 显示 · <kbd>Ctrl+Shift+,</kbd> <kbd>.</kbd> 左右 · <kbd>O</kbd> 打开
   </div>
   <div id="bookmarkItems">
     <div class="bookmark-item"><span class="index">1</span><span class="empty">加载中...</span></div>

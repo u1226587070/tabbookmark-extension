@@ -1,7 +1,15 @@
 // Popup script
 
 const container = document.getElementById('bookmarkItems');
+const btnShow = document.getElementById('btnShow');
 
+// Button: show overlay on current page
+btnShow.addEventListener('click', () => {
+  chrome.runtime.sendMessage({ action: 'showOverlay' });
+  window.close(); // close popup after clicking
+});
+
+// Load bookmark list
 async function init() {
   try {
     const resp = await chrome.runtime.sendMessage({ action: 'getBookmarks' });

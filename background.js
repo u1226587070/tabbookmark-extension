@@ -47,6 +47,13 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 
+  // Show overlay on active tab (from popup button)
+  if (msg.action === 'showOverlay') {
+    sendToActiveTab('toggleOverlay');
+    sendResponse({ ok: true });
+    return false;
+  }
+
   // Open shortcuts setup page (from setup.html button)
   if (msg.action === 'openShortcuts') {
     chrome.tabs.create({ url: 'edge://extensions/shortcuts' }).then(() => {
