@@ -20,6 +20,11 @@ function sendToActiveTab(action) {
   });
 }
 
+// --- Toolbar icon click: open setup guide ---
+chrome.action.onClicked.addListener(() => {
+  chrome.tabs.create({ url: chrome.runtime.getURL('setup.html') });
+});
+
 // --- Commands (4 total, within Edge's limit) ---
 chrome.commands.onCommand.addListener((command) => {
   switch (command) {
