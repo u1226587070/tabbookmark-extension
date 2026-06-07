@@ -36,16 +36,21 @@ function showSetupGuide() {
         <tr><td>nav-right</td><td><kbd>Ctrl+Shift+.</kbd></td><td>右移</td></tr>
         <tr><td>nav-open</td><td><kbd>Ctrl+Shift+O</kbd></td><td>打开</td></tr>
       </table>
-      <button class="tb-done-btn" id="tb-done-btn">✅ 已设置好，开始使用</button>
+      <button class="tb-done-btn" id="tb-open-guide">📖 打开设置引导页 →</button>
+      <div style="font-size:10px;color:#555;margin-top:6px">或按 <kbd>Esc</kbd> 关闭 · <span id="tb-skip-link" style="color:#888;cursor:pointer;text-decoration:underline">跳过，试试书签</span></div>
     </div>
   `;
   overlay.style.display = 'block';
   visible = true;
 
-  document.getElementById('tb-done-btn').onclick = () => {
+  document.getElementById('tb-open-guide').onclick = () => {
+    chrome.storage.local.set({ tb_setup_done: true });
+    chrome.runtime.sendMessage({ action: 'openSetup' });
+    hide();
+  };
+  document.getElementById('tb-skip-link').onclick = () => {
     chrome.storage.local.set({ tb_setup_done: true });
     setupDone = true;
-    // Immediately switch to normal mode
     showBookmarks();
   };
 }
