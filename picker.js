@@ -13,7 +13,11 @@ btnBookmark.addEventListener('click', () => switchMode('bookmark'));
 btnTab.addEventListener('click', () => switchMode('tab'));
 
 function switchMode(newMode) {
-  if (newMode === mode) return;
+  if (newMode === mode) {
+    // Already in this mode, just reload
+    loadItems();
+    return;
+  }
   mode = newMode;
   btnBookmark.classList.toggle('active', mode === 'bookmark');
   btnTab.classList.toggle('active', mode === 'tab');
