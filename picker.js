@@ -107,10 +107,11 @@ document.addEventListener('keydown', (e) => {
   }
   if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); const n = nextValid(cursor, -1); if (items[n]) select(n); return; }
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); const n = nextValid(cursor, 1); if (items[n]) select(n); return; }
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openItem(cursor); return; }
+  if (e.key === 'Enter') { e.preventDefault(); openItem(cursor); return; }
+  if (e.key === ' ') { e.preventDefault(); switchMode(mode === 'bookmark' ? 'tab' : 'bookmark'); return; }
   if (e.key === 'Escape') { window.close(); }
 
-  // Mode switching shortcuts
+  // Mode switching shortcuts (B=bookmark, T=tab, or Space to toggle)
   if (e.key === 'b' || e.key === 'B') { switchMode('bookmark'); return; }
   if (e.key === 't' || e.key === 'T') { switchMode('tab'); return; }
 });
