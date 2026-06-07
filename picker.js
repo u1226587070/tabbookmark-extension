@@ -13,7 +13,7 @@ chrome.runtime.sendMessage({ action: 'getBookmarks' }, (resp) => {
 
 function render() {
   const html = [];
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < books.length; i++) {
     const item = books[i];
     html.push(`
       <div class="row ${item ? '' : 'empty'}" data-idx="${i}">
@@ -24,7 +24,6 @@ function render() {
   }
   container.innerHTML = html.join('');
 
-  // Click handlers
   container.querySelectorAll('.row:not(.empty)').forEach(el => {
     el.addEventListener('click', () => openBookmark(parseInt(el.dataset.idx)));
   });
@@ -45,30 +44,43 @@ function openBookmark(idx) {
   }
 }
 
+// Get count of valid bookmarks
+function validCount() {
+  return books.filter(b => b).length;
+}
+
+// Find next/prev valid bookmark
+function nextValid(from, dir) {
+  const total = books.length;
+  if (validCount() === 0) return from;
+  let i = from;
+  do {
+    i = (i + dir + total) % total;
+  } while (!books[i] && i !== from);
+  return i;
+}
+
 // Keyboard
 document.addEventListener('keydown', (e) => {
   const n = parseInt(e.key, 10);
-  if (n >= 1 && n <= 9) {
+
+  // Number keys: jump to position N (if within range)
+  if (n >= 1 && n <= books.length) {
     e.preventDefault();
     select(n - 1);
     openBookmark(n - 1);
     return;
   }
+
   if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
     e.preventDefault();
-    const max = books.filter(b => b).length - 1;
-    if (max < 0) return;
-    let next = cursor;
-    do { next = (next - 1 + 9) % 9; } while (!books[next] && next !== cursor);
+    const next = nextValid(cursor, -1);
     if (books[next]) select(next);
     return;
   }
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
     e.preventDefault();
-    const max = books.filter(b => b).length - 1;
-    if (max < 0) return;
-    let next = cursor;
-    do { next = (next + 1) % 9; } while (!books[next] && next !== cursor);
+    const next = nextValid(cursor, 1);
     if (books[next]) select(next);
     return;
   }

@@ -7,7 +7,7 @@ async function getBookmarkBarItems() {
     c.id === '1' || c.title === 'Bookmarks Bar' || c.title === '书签栏'
   );
   if (!bookmarkBar?.children) return [];
-  return bookmarkBar.children.filter(item => item.url).slice(0, 9);
+  return bookmarkBar.children.filter(item => item.url);
 }
 
 // --- Open picker window ---
