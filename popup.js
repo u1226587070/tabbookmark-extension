@@ -9,18 +9,8 @@ btnShow.addEventListener('click', () => {
   window.close();
 });
 
-// URL click: try to open directly, fallback to copy
+// URL click: open the full setup guide page
 urlEl.addEventListener('click', () => {
-  // Try to open the shortcuts page from popup (extension page)
-  chrome.tabs.create({ url: 'edge://extensions/shortcuts' }).catch(() => {
-    // Fallback: try chrome://
-    chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }).catch(() => {
-      // Last resort: copy to clipboard
-      navigator.clipboard.writeText('edge://extensions/shortcuts').then(() => {
-        urlEl.textContent = '✅ 地址已复制';
-        setTimeout(() => { urlEl.textContent = 'edge://extensions/shortcuts'; }, 2000);
-      });
-    });
-  });
+  chrome.tabs.create({ url: chrome.runtime.getURL('setup.html') });
   window.close();
 });

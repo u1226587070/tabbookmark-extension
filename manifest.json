@@ -50,7 +50,8 @@
     }
   },
   "action": {
-    "default_title": "TabBookmark Switcher - 点击打开设置引导",
+    "default_popup": "popup.html",
+    "default_title": "TabBookmark Switcher",
     "default_icon": {
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
