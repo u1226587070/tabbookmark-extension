@@ -86,7 +86,7 @@
 
   <div class="step">
     <h2>① 打开快捷键设置</h2>
-    <p>地址栏输入 <span class="url">edge://extensions/shortcuts</span> 按回车</p>
+    <p>或者点这个按钮直接跳转：</p>
     <button class="btn" id="btnOpen">🚀 一键打开快捷键设置</button>
     <p style="font-size:11px;color:#666;margin-top:6px" id="btnStatus"></p>
   </div>
@@ -128,17 +128,35 @@
 <script>
 const btn = document.getElementById('btnOpen');
 const status = document.getElementById('btnStatus');
+
 btn.addEventListener('click', () => {
-  status.textContent = '正在打开...';
-  chrome.runtime.sendMessage({ action: 'openShortcuts' }, (resp) => {
-    if (chrome.runtime.lastError) {
-      status.textContent = '❌ 无法自动打开，请手动输入地址';
-    } else if (resp?.ok) {
-      status.textContent = '✅ 已打开！请设置下面4个快捷键';
-      btn.textContent = '✅ 已跳转';
-      btn.className = 'btn btn-success';
-    }
-  });
+  status.textContent = '⏳ 正在打开...';
+  
+  // Try direct chrome.tabs.create (works on extension pages)
+  try {
+    chrome.tabs.create({ url: 'edge://extensions/shortcuts' }, (tab) => {
+      if (chrome.runtime.lastError) {
+        // Edge fallback: try chrome://
+        chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }, (tab2) => {
+          if (chrome.runtime.lastError) {
+            status.textContent = '❌ 无法自动跳转，请手动输入 edge://extensions/shortcuts';
+          } else {
+            statusOK();
+          }
+        });
+      } else {
+        statusOK();
+      }
+    });
+  } catch(e) {
+    status.textContent = '❌ 无法自动跳转，请手动输入 edge://extensions/shortcuts';
+  }
+  
+  function statusOK() {
+    status.textContent = '✅ 已打开！请设置下面4个快捷键';
+    btn.textContent = '✅ 已跳转';
+    btn.className = 'btn btn-success';
+  }
 });
 </script>
 </body>
