@@ -1,5 +1,7 @@
 // TabBookmark Switcher - Background Service Worker
 
+let mainWindowId = null; // stored when picker opens
+
 async function getBookmarkBarItems() {
   const tree = await chrome.bookmarks.getTree();
   const root = tree[0];
@@ -13,6 +15,7 @@ async function getBookmarkBarItems() {
 // --- Open picker window ---
 async function openPicker() {
   const win = await chrome.windows.getCurrent();
+  mainWindowId = win.id; // remember main window for tab queries
   const w = 340, h = 430;
   const left = Math.round((win.width - w) / 2 + (win.left || 0));
   const top = Math.round((win.height - h) / 2 + (win.top || 0));
@@ -33,7 +36,8 @@ chrome.commands.onCommand.addListener((command) => {
 // --- Messages ---
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.action === 'getTabs') {
-    chrome.tabs.query({ currentWindow: true }, (tabs) => {
+    const winId = mainWindowId; // use stored main window, not current popup
+    chrome.tabs.query({ windowId: winId }, (tabs) => {
       tabs.sort((a, b) => a.index - b.index);
       sendResponse({ tabs });
     });
