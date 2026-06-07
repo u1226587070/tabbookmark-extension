@@ -1,20 +1,28 @@
 # TabBookmark Switcher
 
-让 `Ctrl+1~9` 在「切换标签页」和「打开书签栏」之间切换。
+在页面上显示书签栏浮层，键盘全控制。
 
-## 使用
+## 快捷键（需手动绑定）
 
-| 快捷键 | 功能 |
-|---|---|
-| `Ctrl+1` ~ `Ctrl+9` | 当前模式：Tab 模式切换标签页 / 书签模式打开书签 |
-| `Ctrl+Shift+K` | 切换模式 |
-| 点击工具栏图标 | 切换模式 + 查看当前书签栏内容 |
+| 命令 | 按键 | 功能 |
+|---|---|---|
+| toggle-overlay | `Ctrl+Shift+Space` | 显示/隐藏书签浮层 |
+| nav-left | `Ctrl+Shift+,` | 上一个书签 |
+| nav-right | `Ctrl+Shift+.` | 下一个书签 |
+| nav-open | `Ctrl+Shift+Enter` | 打开当前高亮的书签 |
 
-## 模式
+浮层打开后：`1~9` 直接跳转 · `← →` 移动 · `Enter` 打开 · `Esc` 关闭
 
-- 🔵 **Tab 模式**（蓝色 T）：Ctrl+1~9 切换标签页
-- 🟢 **书签模式**（绿色 B）：Ctrl+1~9 打开书签栏前 9 个书签
+## 安装
 
-## 自定义快捷键
+- 下载 zip 解压，或 `git clone` 本仓库
+- 打开 `edge://extensions/` → 开发人员模式 → 加载解压缩的扩展
+- 打开 `edge://extensions/shortcuts` 绑定 4 个快捷键
 
-在 Edge 地址栏打开 `edge://extensions/shortcuts`，或在 Chrome 打开 `chrome://extensions/shortcuts` 修改快捷键。
+## 更新
+
+```bash
+cd tabbookmark-extension
+git pull
+```
+然后在 `edge://extensions/` 点刷新按钮。

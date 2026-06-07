@@ -2,15 +2,52 @@
   "manifest_version": 3,
   "name": "TabBookmark Switcher",
   "version": "1.0.0",
-  "description": "Toggle Ctrl+1~9 between tab switching and bookmark bar access",
+  "description": "在页面上显示书签栏浮层，方向键导航，数字键跳转",
   "permissions": [
     "bookmarks",
-    "storage",
-    "tabs"
+    "storage"
   ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end",
+      "all_frames": false
+    }
+  ],
+  "commands": {
+    "toggle-overlay": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Space",
+        "mac": "Command+Shift+Space"
+      },
+      "description": "显示/隐藏书签导航浮层"
+    },
+    "nav-left": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Comma",
+        "mac": "Command+Shift+Comma"
+      },
+      "description": "上一个书签 (←)"
+    },
+    "nav-right": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Period",
+        "mac": "Command+Shift+Period"
+      },
+      "description": "下一个书签 (→)"
+    },
+    "nav-open": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Enter",
+        "mac": "Command+Shift+Enter"
+      },
+      "description": "打开当前高亮的书签"
+    }
   },
   "action": {
     "default_popup": "popup.html",
@@ -19,51 +56,6 @@
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
-    }
-  },
-  "commands": {
-    "toggle-mode": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+K",
-        "mac": "Command+Shift+K"
-      },
-      "description": "Toggle between Tab mode and Bookmark mode"
-    },
-    "open-bookmark-1": {
-      "suggested_key": { "default": "Ctrl+1" },
-      "description": "Bookmark bar item 1"
-    },
-    "open-bookmark-2": {
-      "suggested_key": { "default": "Ctrl+2" },
-      "description": "Bookmark bar item 2"
-    },
-    "open-bookmark-3": {
-      "suggested_key": { "default": "Ctrl+3" },
-      "description": "Bookmark bar item 3"
-    },
-    "open-bookmark-4": {
-      "suggested_key": { "default": "Ctrl+4" },
-      "description": "Bookmark bar item 4"
-    },
-    "open-bookmark-5": {
-      "suggested_key": { "default": "Ctrl+5" },
-      "description": "Bookmark bar item 5"
-    },
-    "open-bookmark-6": {
-      "suggested_key": { "default": "Ctrl+6" },
-      "description": "Bookmark bar item 6"
-    },
-    "open-bookmark-7": {
-      "suggested_key": { "default": "Ctrl+7" },
-      "description": "Bookmark bar item 7"
-    },
-    "open-bookmark-8": {
-      "suggested_key": { "default": "Ctrl+8" },
-      "description": "Bookmark bar item 8"
-    },
-    "open-bookmark-9": {
-      "suggested_key": { "default": "Ctrl+9" },
-      "description": "Bookmark bar item 9"
     }
   },
   "icons": {

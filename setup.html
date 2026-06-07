@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>TabBookmark 安装完成</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    max-width: 640px;
+    margin: 40px auto;
+    padding: 0 20px;
+    line-height: 1.7;
+  }
+  h1 { color: #fff; font-size: 22px; margin-bottom: 8px; }
+  .step {
+    background: #16213e;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .step h2 { font-size: 15px; color: #64b5f6; margin-bottom: 6px; }
+  .step p, .step ul { font-size: 13px; color: #ccc; }
+  .step ul { padding-left: 20px; }
+  .step ul li { margin: 4px 0; }
+  .step kbd {
+    background: #0f3460;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #64b5f6;
+    font-family: inherit;
+    border: 1px solid #1a4a7a;
+  }
+  .url {
+    background: #0f3460;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #4fc3f7;
+    word-break: break-all;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 8px 0;
+  }
+  table th {
+    text-align: left;
+    color: #888;
+    font-weight: 400;
+    padding: 4px 8px;
+    border-bottom: 1px solid #2a2a4a;
+  }
+  table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #222;
+    color: #ccc;
+  }
+  .done { text-align: center; margin-top: 20px; }
+  .done p { color: #888; font-size: 12px; }
+</style>
+</head>
+<body>
+  <h1>✅ TabBookmark 安装完成</h1>
+  <p>最后一步：去快捷键设置里绑定 4 个按键。</p>
+
+  <div class="step">
+    <h2>① 打开快捷键设置</h2>
+    <p>地址栏输入 <span class="url">edge://extensions/shortcuts</span> 按回车</p>
+  </div>
+
+  <div class="step">
+    <h2>② 设置这 4 个快捷键</h2>
+    <p>找到 <strong>TabBookmark Switcher</strong>，依次设置：</p>
+    <table>
+      <tr><th>命令</th><th>按键</th><th>功能</th></tr>
+      <tr><td><kbd>Ctrl+Shift+Space</kbd></td><td>显示/隐藏书签浮层</td></tr>
+      <tr><td><kbd>Ctrl+Shift+,</kbd></td><td>上一个书签</td></tr>
+      <tr><td><kbd>Ctrl+Shift+.</kbd></td><td>下一个书签</td></tr>
+      <tr><td><kbd>Ctrl+Shift+Enter</kbd></td><td>打开当前高亮的书签</td></tr>
+    </table>
+  </div>
+
+  <div class="step">
+    <h2>③ 使用方式</h2>
+    <ul>
+      <li><kbd>Ctrl+Shift+Space</kbd> → 弹出书签浮层</li>
+      <li>浮层出来后键盘全控制：<kbd>1~9</kbd> 跳转 · <kbd>←→</kbd> 移动 · <kbd>Enter/Space</kbd> 打开 · <kbd>Esc</kbd> 关闭</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <h2>📦 以后更新</h2>
+    <p>以后我更新了代码，你只需要：</p>
+    <ul>
+      <li>克隆仓库：<code>git clone https://github.com/u1226587070/tabbookmark-extension.git</code></li>
+      <li>更新拉取：<code>git pull</code></li>
+      <li>在 <span class="url">edge://extensions/</span> 点刷新</li>
+    </ul>
+  </div>
+
+  <div class="done">
+    <p>这个页面关掉就行 😊</p>
+  </div>
+</body>
+</html>
