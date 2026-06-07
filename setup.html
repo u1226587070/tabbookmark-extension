@@ -86,9 +86,8 @@
 
   <div class="step">
     <h2>① 打开快捷键设置</h2>
-    <p>或者点这个按钮直接跳转：</p>
-    <button class="btn" id="btnOpen">🚀 一键打开快捷键设置</button>
-    <p style="font-size:11px;color:#666;margin-top:6px" id="btnStatus"></p>
+    <p>复制下面地址到地址栏打开：</p>
+    <p style="background:#0f3460;padding:10px 14px;border-radius:6px;font-size:14px;color:#4fc3f7;word-break:break-all;user-select:all" onclick="this.select()">edge://extensions/shortcuts</p>
   </div>
 
   <div class="step">
@@ -125,39 +124,6 @@
     <p>配好快捷键后按 <kbd>Ctrl+Shift+Space</kbd> 试试效果 😊</p>
   </div>
 
-<script>
-const btn = document.getElementById('btnOpen');
-const status = document.getElementById('btnStatus');
 
-btn.addEventListener('click', () => {
-  status.textContent = '⏳ 正在打开...';
-  
-  // Try direct chrome.tabs.create (works on extension pages)
-  try {
-    chrome.tabs.create({ url: 'edge://extensions/shortcuts' }, (tab) => {
-      if (chrome.runtime.lastError) {
-        // Edge fallback: try chrome://
-        chrome.tabs.create({ url: 'chrome://extensions/shortcuts' }, (tab2) => {
-          if (chrome.runtime.lastError) {
-            status.textContent = '❌ 无法自动跳转，请手动输入 edge://extensions/shortcuts';
-          } else {
-            statusOK();
-          }
-        });
-      } else {
-        statusOK();
-      }
-    });
-  } catch(e) {
-    status.textContent = '❌ 无法自动跳转，请手动输入 edge://extensions/shortcuts';
-  }
-  
-  function statusOK() {
-    status.textContent = '✅ 已打开！请设置下面4个快捷键';
-    btn.textContent = '✅ 已跳转';
-    btn.className = 'btn btn-success';
-  }
-});
-</script>
 </body>
 </html>

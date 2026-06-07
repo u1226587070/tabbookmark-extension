@@ -13,7 +13,10 @@ function createOverlay() {
   overlay.innerHTML = `
     <div class="tb-bar">
       <div class="tb-bar-inner" id="tb-items"></div>
-      <div class="tb-hint">Esc关闭 · ← → 移动 · 回车打开 · 按数字跳转</div>
+      <div class="tb-hint">
+        <span>Esc关闭 · ← → 移动 · 回车打开 · 按数字跳转</span>
+        <span class="tb-setup" id="tb-setup-link">⚙️ 设置快捷键</span>
+      </div>
     </div>
   `;
   overlay.style.cssText = `
@@ -165,6 +168,18 @@ function injectStyles() {
       color: #555;
       margin-top: 6px;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    #tb-overlay .tb-setup {
+      color: #64b5f6;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    #tb-overlay .tb-setup:hover {
+      color: #90caf9;
     }
   `;
   document.head.appendChild(style);
@@ -213,6 +228,16 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+// --- Setup link click ---
+function addSetupHandler() {
+  const el = document.getElementById('tb-setup-link');
+  if (el) {
+    el.onclick = () => {
+      chrome.runtime.sendMessage({ action: 'openSetup' });
+    };
+  }
+}
+
 // --- Init ---
 createOverlay();
 injectStyles();
@@ -221,7 +246,11 @@ injectStyles();
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.action === 'toggleOverlay') {
     if (visible) hide();
-    else show();
+    else {
+      show();
+      // Defer setup link handler until after DOM rendered
+      setTimeout(addSetupHandler, 0);
+    }
   }
   if (msg.action === 'navLeft') {
     if (visible) moveLeft();

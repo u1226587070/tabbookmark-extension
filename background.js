@@ -54,6 +54,13 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return false;
   }
 
+  // Open setup guide (from overlay link or popup)
+  if (msg.action === 'openSetup') {
+    chrome.tabs.create({ url: chrome.runtime.getURL('setup.html') });
+    sendResponse({ ok: true });
+    return false;
+  }
+
   // Open shortcuts setup page (from setup.html button)
   if (msg.action === 'openShortcuts') {
     chrome.tabs.create({ url: 'edge://extensions/shortcuts' }).then(() => {
