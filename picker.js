@@ -105,6 +105,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); const n = nextValid(cursor, 1); if (items[n]) select(n); return; }
   if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openItem(cursor); return; }
   if (e.key === 'Escape') { window.close(); }
+
+  // Mode switching shortcuts
+  if (e.key === 'b' || e.key === 'B') { switchMode('bookmark'); return; }
+  if (e.key === 't' || e.key === 'T') { switchMode('tab'); return; }
 });
 
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
