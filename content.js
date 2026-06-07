@@ -27,7 +27,7 @@ function showSetupGuide() {
     <div class="tb-bar tb-setup-mode">
       <div class="tb-setup-title">⚙️ 先设置快捷键</div>
       <div class="tb-setup-url">
-        复制到地址栏：<span class="tb-url" onclick="navigator.clipboard.writeText(this.textContent)">edge://extensions/shortcuts</span>
+        点击打开设置引导页：<span class="tb-url" id="tb-url-guide">📖 打开引导页 →</span>
       </div>
       <table class="tb-key-table">
         <tr><th>命令</th><th>按键</th><th>功能</th></tr>
@@ -36,14 +36,13 @@ function showSetupGuide() {
         <tr><td>nav-right</td><td><kbd>Ctrl+Shift+.</kbd></td><td>右移</td></tr>
         <tr><td>nav-open</td><td><kbd>Ctrl+Shift+O</kbd></td><td>打开</td></tr>
       </table>
-      <button class="tb-done-btn" id="tb-open-guide">📖 打开设置引导页 →</button>
-      <div style="font-size:10px;color:#555;margin-top:6px">或按 <kbd>Esc</kbd> 关闭 · <span id="tb-skip-link" style="color:#888;cursor:pointer;text-decoration:underline">跳过，试试书签</span></div>
+      <div style="margin-top:6px;font-size:10px;color:#555">按 <kbd>Esc</kbd> 关闭 · <span id="tb-skip-link" style="color:#888;cursor:pointer;text-decoration:underline">跳过，试试书签</span></div>
     </div>
   `;
   overlay.style.display = 'block';
   visible = true;
 
-  document.getElementById('tb-open-guide').onclick = () => {
+  document.getElementById('tb-url-guide').onclick = () => {
     chrome.storage.local.set({ tb_setup_done: true });
     chrome.runtime.sendMessage({ action: 'openSetup' });
     hide();
