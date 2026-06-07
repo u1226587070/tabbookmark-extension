@@ -2,44 +2,23 @@
   "manifest_version": 3,
   "name": "TabBookmark Switcher",
   "version": "1.0.0",
-  "description": "在页面上显示书签栏浮层，方向键导航，数字键跳转",
+  "description": "弹窗显示书签或标签页，Tab/书签模式一键切换",
   "permissions": [
     "bookmarks",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
-
   "commands": {
     "toggle-overlay": {
       "suggested_key": {
         "default": "Ctrl+Shift+Space",
         "mac": "Command+Shift+Space"
       },
-      "description": "显示/隐藏书签导航浮层"
-    },
-    "nav-left": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+Comma",
-        "mac": "Command+Shift+Comma"
-      },
-      "description": "上一个书签 (←)"
-    },
-    "nav-right": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+Period",
-        "mac": "Command+Shift+Period"
-      },
-      "description": "下一个书签 (→)"
-    },
-    "nav-open": {
-      "suggested_key": {
-        "default": "Ctrl+Shift+O",
-        "mac": "Command+Shift+O"
-      },
-      "description": "打开当前高亮的书签"
+      "description": "弹出书签/标签页选择窗口"
     }
   },
   "action": {

@@ -32,6 +32,18 @@ chrome.commands.onCommand.addListener((command) => {
 
 // --- Messages ---
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg.action === 'getTabs') {
+    chrome.tabs.query({ currentWindow: true }, (tabs) => {
+      tabs.sort((a, b) => a.index - b.index);
+      sendResponse({ tabs });
+    });
+    return true;
+  }
+  if (msg.action === 'switchToTab') {
+    chrome.tabs.update(msg.tabId, { active: true });
+    chrome.windows.update(msg.windowId, { focused: true });
+    return false;
+  }
   if (msg.action === 'openBookmark') {
     getBookmarkBarItems().then(items => {
       const item = items[msg.index];

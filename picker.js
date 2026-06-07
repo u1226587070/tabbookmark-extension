@@ -1,20 +1,52 @@
 // TabBookmark Picker
 
-let books = [];
+let items = [];       // { url, title } or null
 let cursor = 0;
-let container = document.getElementById('list');
+let mode = 'bookmark'; // 'bookmark' | 'tab'
+const container = document.getElementById('list');
+const modeTitle = document.getElementById('modeTitle');
+const btnBookmark = document.getElementById('modeBookmark');
+const btnTab = document.getElementById('modeTab');
 
-// Load bookmarks and render
-chrome.runtime.sendMessage({ action: 'getBookmarks' }, (resp) => {
-  books = (resp?.items || []).map(i => i ? { url: i.url, title: i.title || i.url } : null);
-  render();
-  select(0);
-});
+// --- Mode toggle ---
+btnBookmark.addEventListener('click', () => switchMode('bookmark'));
+btnTab.addEventListener('click', () => switchMode('tab'));
 
+function switchMode(newMode) {
+  if (newMode === mode) return;
+  mode = newMode;
+  btnBookmark.classList.toggle('active', mode === 'bookmark');
+  btnTab.classList.toggle('active', mode === 'tab');
+  loadItems();
+}
+
+function loadItems() {
+  if (mode === 'bookmark') {
+    modeTitle.textContent = '📑 书签';
+    chrome.runtime.sendMessage({ action: 'getBookmarks' }, (resp) => {
+      items = (resp?.items || []).map(i => i ? { url: i.url, title: i.title || i.url } : null);
+      render();
+      select(0);
+    });
+  } else {
+    modeTitle.textContent = '📂 标签页';
+    chrome.runtime.sendMessage({ action: 'getTabs' }, (resp) => {
+      items = (resp?.tabs || []).map(t => t ? { url: t.url, title: t.title || t.url, tabId: t.id, windowId: t.windowId } : null);
+      render();
+      select(0);
+    });
+  }
+}
+
+// --- Render ---
 function render() {
+  if (!items.length) {
+    container.innerHTML = `<div class="row empty" style="cursor:default;opacity:0.5;justify-content:center;padding:20px">暂无内容</div>`;
+    return;
+  }
   const html = [];
-  for (let i = 0; i < books.length; i++) {
-    const item = books[i];
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
     html.push(`
       <div class="row ${item ? '' : 'empty'}" data-idx="${i}">
         <span class="num">${i + 1}</span>
@@ -25,7 +57,7 @@ function render() {
   container.innerHTML = html.join('');
 
   container.querySelectorAll('.row:not(.empty)').forEach(el => {
-    el.addEventListener('click', () => openBookmark(parseInt(el.dataset.idx)));
+    el.addEventListener('click', () => openItem(parseInt(el.dataset.idx)));
   });
 }
 
@@ -36,64 +68,46 @@ function select(idx) {
   if (active) active.scrollIntoView({ block: 'nearest' });
 }
 
-function openBookmark(idx) {
-  const b = books[idx];
-  if (b) {
+// --- Open item ---
+function openItem(idx) {
+  const item = items[idx];
+  if (!item) return;
+  if (mode === 'bookmark') {
     chrome.runtime.sendMessage({ action: 'openBookmark', index: idx });
-    window.close();
+  } else {
+    chrome.runtime.sendMessage({ action: 'switchToTab', tabId: item.tabId, windowId: item.windowId });
   }
+  window.close();
 }
 
-// Get count of valid bookmarks
+// --- Count valid ---
 function validCount() {
-  return books.filter(b => b).length;
+  return items.filter(i => i).length;
 }
-
-// Find next/prev valid bookmark
 function nextValid(from, dir) {
-  const total = books.length;
   if (validCount() === 0) return from;
+  const total = items.length;
   let i = from;
-  do {
-    i = (i + dir + total) % total;
-  } while (!books[i] && i !== from);
+  do { i = (i + dir + total) % total; } while (!items[i] && i !== from);
   return i;
 }
 
-// Keyboard
+// --- Keyboard ---
 document.addEventListener('keydown', (e) => {
   const n = parseInt(e.key, 10);
-
-  // Number keys: jump to position N (if within range)
-  if (n >= 1 && n <= books.length) {
+  if (n >= 1 && n <= items.length) {
     e.preventDefault();
     select(n - 1);
-    openBookmark(n - 1);
+    openItem(n - 1);
     return;
   }
-
-  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-    e.preventDefault();
-    const next = nextValid(cursor, -1);
-    if (books[next]) select(next);
-    return;
-  }
-  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-    e.preventDefault();
-    const next = nextValid(cursor, 1);
-    if (books[next]) select(next);
-    return;
-  }
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    openBookmark(cursor);
-    return;
-  }
-  if (e.key === 'Escape') {
-    window.close();
-  }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); const n = nextValid(cursor, -1); if (items[n]) select(n); return; }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); const n = nextValid(cursor, 1); if (items[n]) select(n); return; }
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openItem(cursor); return; }
+  if (e.key === 'Escape') { window.close(); }
 });
 
-function esc(s) {
-  return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// --- Start ---
+loadItems();
